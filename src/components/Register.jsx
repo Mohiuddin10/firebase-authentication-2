@@ -1,6 +1,25 @@
 import { NavLink } from "react-router-dom";
+import {createUserWithEmailAndPassword } from 'firebase/auth'
+import auth from "../_firebase.config";
+import { useState } from "react";
 
 const Register = () => {
+    const [register, setRegister] = useState('');
+    const [error, setError] = useState('');
+    const handleRegister = e => {
+        e.preventDefault();
+        const name = e.target.name.value;
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        console.log(name, email, password);
+        createUserWithEmailAndPassword(auth, email, password)
+        .then(result => {
+            setRegister('User created succssfully')
+        })
+        .catch(error => {
+            setError(error.message)
+        })
+    }
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col">
@@ -8,7 +27,7 @@ const Register = () => {
                     <h1 className="text-5xl font-bold">Register now!</h1>
                 </div>
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                    <form className="card-body">
+                    <form onSubmit={handleRegister} className="card-body">
                     <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Name</span>
@@ -33,6 +52,12 @@ const Register = () => {
                     </form>
                     <p>Already have account? Please <span className="text-warning"><NavLink to='/login'><a href="">Log in</a></NavLink></span></p>
                 </div>
+                {
+                    register && <p className="text-lg text-green-500">{register}</p>
+                }
+                {
+                    error && <p className="text-lg text-red-500">{error}</p>
+                }
             </div>
         </div>
     );
