@@ -14,7 +14,8 @@ const Register = () => {
         console.log(name, email, password);
         createUserWithEmailAndPassword(auth, email, password)
         .then(result => {
-            setRegister('User created succssfully')
+
+            setRegister(`${name} registered successfully`)
         })
         .catch(error => {
             setError(error.message)
@@ -50,7 +51,7 @@ const Register = () => {
                             <input className="btn btn-primary" type="submit" value="Register" />
                         </div>
                     </form>
-                    <p>Already have account? Please <span className="text-warning"><NavLink to='/login'><a href="">Log in</a></NavLink></span></p>
+                    <p className="text-center m-2 p-4">Already have account? Please <span className="text-warning"><NavLink to='/login'><a href="">Log in</a></NavLink></span></p>
                 </div>
                 {
                     register && <p className="text-lg text-green-500">{register}</p>
