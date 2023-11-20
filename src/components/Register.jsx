@@ -1,9 +1,12 @@
 import { NavLink } from "react-router-dom";
-import {createUserWithEmailAndPassword } from 'firebase/auth'
-import auth from "../_firebase.config";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../provider/AuthProvider";
 
 const Register = () => {
+
+    const authInfo = useContext(AuthContext);
+    const {createUser} = authInfo;
+
     const [register, setRegister] = useState('');
     const [error, setError] = useState('');
     const handleRegister = e => {
@@ -12,7 +15,7 @@ const Register = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
         console.log(name, email, password);
-        createUserWithEmailAndPassword(auth, email, password)
+        createUser(email, password)
         .then(result => {
 
             setRegister(`${name} registered successfully`)
